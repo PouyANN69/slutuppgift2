@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package slutprojekt2;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -32,7 +33,12 @@ public class Slutprojekt2 {
             System.out.println("2. Printa ut antal lediga platser");
             System.out.println("3. Beräkna vinsten av antalet sålda biljetter");
             System.out.println("4. Avsluta programmet");
-
+try {
+    System.out.print("Ange 1-4: ");
+} catch (InputMismatchException e) {
+    System.out.println("Felaktig inmatning. Du måste ange 1-4.");
+    input.nextLine(); // konsumera felaktig inmatning
+}
             // Läs in användarens val
             val = input.nextInt();
 
@@ -43,41 +49,56 @@ public class Slutprojekt2 {
                 case 4 -> System.out.println("Programmet avslutas...");
                 default -> System.out.println("Felaktigt val, försök igen.");
             }
+            
         } while (val != 4);
+
     }
 
     // Lägger till en passagerare till bussen
-    private static void laggaTillPassagerare() {
-        Scanner input = new Scanner(System.in);
-        int ledigaPlatser = antalLedigaPlatser();
+   // Lägger till en passagerare till bussen
+private static void laggaTillPassagerare() {
+    Scanner input = new Scanner(System.in);
+    int ledigaPlatser = antalLedigaPlatser();
 
-        if (ledigaPlatser == 0) {
-            System.out.println("Tyvärr finns inga lediga platser kvar.");
-        } else {
-            // Hitta första lediga plats
-            int plats = -1;
-            for (int i = 0; i < passagerare.length; i++) {
-                if (passagerare[i] == null) {
-                    plats = i;
-                    break;
-                }
+    if (ledigaPlatser == 0) {
+        System.out.println("Tyvärr finns inga lediga platser kvar.");
+    } else {
+        // Hitta första lediga plats
+        int plats = -1;
+        for (int i = 0; i < passagerare.length; i++) {
+            if (passagerare[i] == null) {
+                plats = i;
+                break;
             }
-
-            // Läs in passagerarens namn och födelsedatum
-            System.out.print("Ange passagerarens namn: ");
-            String namn = input.nextLine();
-
-            System.out.print("Ange passagerarens födelsedatum (ååååmmdd): ");
-            int fodelsedatum = input.nextInt();
-
-            // Lägg till passageraren på platsen
-            passagerare[plats] = namn;
-            fodelsedagar[plats] = fodelsedatum;
-            antalBiljetter++;
-
-            System.out.println(namn + " har bokat plats " + (plats + 1) + ".");
         }
+
+        // Läs in passagerarens namn och födelsedatum
+        System.out.print("Ange passagerarens namn: ");
+        String namn = input.nextLine();
+
+        int fodelsedatum = 0;
+        boolean invalidInput = true;
+        while (invalidInput) {
+            try {
+                System.out.print("Ange passagerarens födelsedatum (ååååmmdd): ");
+                fodelsedatum = input.nextInt();
+                invalidInput = false;
+//InputMismatchException är ett fel som uppstår när användarens inmatning inte matchar det som förväntas enligt programkoden
+            } catch (InputMismatchException e) {
+                System.out.println("Felaktig inmatning. Försök igen.");
+                input.nextLine(); // konsumera felaktig inmatning
+            }
+        }
+
+        // Lägg till passageraren på platsen
+        passagerare[plats] = namn;
+        fodelsedagar[plats] = fodelsedatum;
+        antalBiljetter++;
+
+        System.out.println(namn + " har bokat plats " + (plats + 1) + ".");
     }
+}
+
 
     // Skriver ut antalet lediga platser
     private static void skrivUtLedigaPlatser() {
