@@ -21,16 +21,26 @@ public class Slutprojekt2 {
         
         int inmatning;
         
-        do {
-            System.out.println("Meny:");
-            System.out.println("1. Boka en plats");
-            System.out.println("2. Printa lista i ordning av bookings så du kan se platser som är upptagna och av vem");
-            System.out.println("3. Ta reda på en bokning med personnummer eller namn för att se upptagen plats");
-            System.out.println("4. Beräkna vinsten av alla sålda biljetter");
-            System.out.println("5. Ta bort en bokning med personnummer eller namn");
-            System.out.println("0. Avsluta programmet");
-            System.out.print("Välj alternativ 0-5: ");
+        boolean felaktigInmatning;
+    
+    do {
+        System.out.println("Meny:");
+        System.out.println("1. Boka en plats");
+        System.out.println("2. Printa lista i ordning av bookings så du kan se platser som är upptagna och av vem");
+        System.out.println("3. Ta reda på en bokning med personnummer eller namn för att se upptagen plats");
+        System.out.println("4. Beräkna vinsten av alla sålda biljetter");
+        System.out.println("5. Ta bort en bokning med personnummer eller namn");
+        System.out.println("0. Avsluta programmet");
+        System.out.print("Välj alternativ 0-5: ");
+        try {
             inmatning = scan.nextInt();
+            felaktigInmatning = false;
+        } catch (InputMismatchException e) {
+            System.out.println("Felaktig inmatning, välj 0-5");
+            scan.nextLine(); // konsumera den felaktiga inmatningen
+            felaktigInmatning = true;
+            inmatning = -1;
+        }
             boolean rättsvar = false;
                 if(inmatning==1){ boka(); rättsvar=true;}
                 
@@ -44,7 +54,6 @@ public class Slutprojekt2 {
 
                 if(inmatning==0){ System.out.println("Programmet avslutas");rättsvar=true;}
                 
-                if (rättsvar==false) {System.out.println("Fel inmatning, välj 0-5");}
             }
         while (inmatning != 0);
     }
