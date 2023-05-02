@@ -24,14 +24,15 @@ public class Slutprojekt2 {
         boolean felaktigInmatning;
     
     do {
-        System.out.println("Meny:");
+        System.out.println("Bokningsmeny:");
         System.out.println("1. Boka en plats");
         System.out.println("2. Printa lista i ordning av bookings så du kan se platser som är upptagna och av vem");
         System.out.println("3. Ta reda på en bokning med personnummer eller namn för att se upptagen plats");
         System.out.println("4. Beräkna vinsten av alla sålda biljetter");
         System.out.println("5. Ta bort en bokning med personnummer eller namn");
+        System.out.println("6. Printa ut antal lediga platser:");
         System.out.println("0. Avsluta programmet");
-        System.out.print("Välj alternativ 0-5: ");
+        System.out.print("Välj alternativ 0-6: ");
         try {
             inmatning = scan.nextInt();
             felaktigInmatning = false;
@@ -51,13 +52,45 @@ public class Slutprojekt2 {
                 if(inmatning==4){ System.out.println("Total vinst: " + räknaVinst());rättsvar=true;}
                 
                 if(inmatning==5){ avboka();rättsvar=true;}
+                if(inmatning==6){tommaPlatser();rättsvar=true;
 
                 if(inmatning==0){ System.out.println("Programmet avslutas");rättsvar=true;}
                 
             }
-        while (inmatning != 0);
+    }while (inmatning != 0);
+    
+    }
+    static void tommaPlatser() {
+    int antalTommaVanliga = VANLIGAPLATSER.length;
+    int antalTommaFönster = FÖNSTERPLATSER.length;
+
+    for (int i = 0; i < bokningar.length; i++) {
+        if (bokningar[i] != null) {
+            int platsnummer = i + 1;
+
+            if (platsFinnsIArray(platsnummer, FÖNSTERPLATSER)) {
+                antalTommaFönster--;
+            } else {
+                antalTommaVanliga--;
+            }
+        }
     }
 
+    System.out.println("Antal tomma vanliga platser: " + antalTommaVanliga);
+    System.out.println("Antal tomma fönsterplatser: " + antalTommaFönster);
+}
+
+static boolean platsFinnsIArray(int platsnummer, int[] array) {
+    for (int i = 0; i < array.length; i++) {
+        if (platsnummer == array[i]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+  
 static void boka() {
     Scanner scanner = new Scanner(System.in);
     System.out.print("Ange resenärens födelsedatum (yyyymmdd): ");
